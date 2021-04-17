@@ -11,7 +11,9 @@ export const databaseConfig = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   logging: true,
-  entities: [],
+  entities: [
+    'src/entities/*.ts'
+  ],
   migrations: [
     'src/database/migrations/**/*.ts'
   ],
