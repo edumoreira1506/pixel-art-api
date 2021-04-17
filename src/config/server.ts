@@ -3,6 +3,7 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 
 import routes from '@Config/routes'
+import '@Config/database'
 
 const App = express()
 
