@@ -1,7 +1,10 @@
+import dotEnv from 'dotenv'
+
+dotEnv.config()
+
 import Server from '@Config/server'
+import { SERVER_PORT } from '@Constants/server'
 
-const port = process.env.PORT || 3000
-
-Server.listen(port, () => {
-  console.log(`Online API on port ${port}`)
+Server.listen(SERVER_PORT, () => {
+  console.log(`Online API on port ${SERVER_PORT}`)
 })

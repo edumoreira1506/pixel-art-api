@@ -1,8 +1,11 @@
 import express from 'express'
-import HomeController from '@Controllers/HomeController'
+
+import UserController from '@Controllers/UserController'
 
 const routes = express.Router()
 
-routes.get('/', HomeController.index)
+routes.post('/auth', UserController.auth)
+
+routes.post('/users', UserController.store)
 
 export default routes
