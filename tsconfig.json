@@ -70,7 +70,8 @@
     "forceConsistentCasingInFileNames": true        /* Disallow inconsistently-cased references to the same file. */,
     "baseUrl": ".",
     "paths": {
-      "@Config/*": ["./src/config/*"]
+      "@Config/*": ["./src/config/*"],
+      "@Controllers/*": ["./src/controllers/*"]
     }
   }
 }

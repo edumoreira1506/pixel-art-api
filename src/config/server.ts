@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
+import routes from '@Config/routes';
+
 const App = express();
 
 App.use(
@@ -11,6 +13,7 @@ App.use(
 );
 App.use(bodyParser.urlencoded({ extended: true }));
 App.use(bodyParser.json({ limit: '2048kb' }));
+App.use(routes);
 
 App.use((_, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*');
