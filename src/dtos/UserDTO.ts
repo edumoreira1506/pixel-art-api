@@ -1,15 +1,11 @@
 import ValidationError from '@Errors/ValidatonError'
-import { UserRepository } from '@Repositories/UserRepository'
+import UserRepository from '@Repositories/UserRepository'
 import EncryptService from '@Services/EncryptService'
-
-type UserDTOType = {
-  username: string;
-  password: string;
-}
+import { UserDTOType } from '@Types/dtos'
 
 export default class UserDTO {
-  username: string;
-  password: string;
+  public username: string;
+  public password: string;
 
   constructor({ username, password }: UserDTOType) {
     this.username = username

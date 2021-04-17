@@ -1,15 +1,14 @@
 import { createConnection } from 'typeorm'
-import dotEnv from 'dotenv'
 
-dotEnv.config()
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USERNAME } from '@Constants/database'
 
 export const databaseConfig = {
   type: 'postgres',
-  host: process.env.DB_HOST,
+  host: DB_HOST,
   port: 5432,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  username: DB_USERNAME,
+  password: DB_PASSWORD,
+  database: DB_NAME,
   logging: true,
   entities: [
     'src/entities/*.ts'

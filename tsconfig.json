@@ -76,7 +76,9 @@
       "@Dtos/*": ["./src/dtos/*"],
       "@Errors/*": ["./src/errors/*"],
       "@Repositories/*": ["./src/repositories/*"],
-      "@Services/*": ["./src/services/*"]
+      "@Services/*": ["./src/services/*"],
+      "@Types/*": ["./src/@types/*"],
+      "@Constants/*": ["./src/constants/*"]
     }
   }
 }

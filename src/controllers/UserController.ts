@@ -3,7 +3,8 @@ import { Request, Response } from 'express'
 import BaseController from '@Controllers/BaseController'
 import User from '@Entities/User'
 import { UserDTOBuilder } from '@Dtos/UserDTO'
-import { UserRepository } from '@Repositories/UserRepository'
+import UserRepository from '@Repositories/UserRepository'
+import AuthService from '@Services/AuthService'
 
 class UserController extends BaseController<User, UserRepository> {
   store = async (req: Request, res: Response): Promise<Response> => {
@@ -17,17 +18,18 @@ class UserController extends BaseController<User, UserRepository> {
       .then(async userDTO => {
         const user = await this.repository.save(userDTO)
 
-        return res.status(200).send({
-          ok: true,
-          user,
-        })
+        return this.successResponse(res, { user })
       })
-      .catch(errors => {
-        return res.status(400).send({
-          ok: false,
-          errors,
-        })
-      })
+      .catch(errors => this.errorResponse(res, errors))
+  }
+
+  auth = async (req: Request, res: Response) => {
+    const { username, password } = req.body
+
+    AuthService
+      .login(username, password, this.repository)
+      .then(token => this.successResponse(res, { token }))
+      .catch(errors => this.errorResponse(res, errors))
   }
 }
 
