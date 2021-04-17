@@ -75,7 +75,8 @@
       "@Entities/*": ["./src/entities/*"],
       "@Dtos/*": ["./src/dtos/*"],
       "@Errors/*": ["./src/errors/*"],
-      "@Repositories/*": ["./src/repositories/*"]
+      "@Repositories/*": ["./src/repositories/*"],
+      "@Services/*": ["./src/services/*"]
     }
   }
 }

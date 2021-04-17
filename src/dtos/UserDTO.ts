@@ -1,5 +1,6 @@
 import ValidationError from '@Errors/ValidatonError'
 import { UserRepository } from '@Repositories/UserRepository'
+import EncryptService from '@Services/EncryptService'
 
 type UserDTOType = {
   username: string;
@@ -44,6 +45,10 @@ export class UserDTOBuilder {
     return this
   }
 
+  encryptPassword(): void {
+    this._password = EncryptService.hash(this._password)
+  }
+
   async validate(): Promise<void> {
     const errors = []
 
@@ -65,6 +70,8 @@ export class UserDTOBuilder {
 
   async build(): Promise<UserDTO> {
     await this.validate()
+
+    this.encryptPassword()
 
     return new UserDTO({
       username: this._username,
