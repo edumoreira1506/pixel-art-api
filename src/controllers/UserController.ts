@@ -18,9 +18,9 @@ class UserController extends BaseController<User, UserRepository> {
       .then(async userDTO => {
         const user = await this.repository.save(userDTO)
 
-        return this.successResponse(res, { user })
+        return BaseController.successResponse(res, { user })
       })
-      .catch(errors => this.errorResponse(res, errors))
+      .catch(errors => BaseController.errorResponse(res, errors))
   }
 
   auth = async (req: Request, res: Response) => {
@@ -28,8 +28,8 @@ class UserController extends BaseController<User, UserRepository> {
 
     AuthService
       .login(username, password, this.repository)
-      .then(token => this.successResponse(res, { token }))
-      .catch(errors => this.errorResponse(res, errors))
+      .then(token => BaseController.successResponse(res, { token }))
+      .catch(errors => BaseController.errorResponse(res, errors))
   }
 }
 
