@@ -27,7 +27,8 @@
       "@Repositories/*": ["src/repositories/*"],
       "@Services/*": ["src/services/*"],
       "@Types/*": ["src/@types/*"],
-      "@Constants/*": ["src/constants/*"]
+      "@Constants/*": ["src/constants/*"],
+      "@Middlewares/*": ["src/middlewares/*"]
     }
   }
 }

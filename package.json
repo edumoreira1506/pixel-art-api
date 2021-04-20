@@ -7,8 +7,10 @@
     "test": "jest",
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --ignore-watch node_modules --no-notify index.ts",
     "lint": "eslint .",
-    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
-    "db:migrate": "npm run typeorm migration:run"
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm",
+    "db:migrate": "npm run typeorm migration:run",
+    "db:schema:sync": "yarn typeorm schema:sync",
+    "db:schema:drop": "yarn typeorm schema:drop"
   },
   "repository": {
     "type": "git",

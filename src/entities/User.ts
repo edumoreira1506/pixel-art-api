@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn  } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn  } from 'typeorm'
+
+import Folder from '@Entities/Folder'
 
 @Entity('users')
 export default class User {
@@ -10,4 +12,7 @@ export default class User {
 
   @Column('varchar')
   password: string;
+
+  @OneToMany(() => Folder, folder => folder.user)
+  folders: Folder[];
 }

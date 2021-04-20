@@ -15,14 +15,14 @@ export default class BaseController<T, I> {
     this.entity = entityParam
   }
 
-  successResponse(res: Response, payload: Record<string, unknown>): Response {
+  static successResponse(res: Response, payload: Record<string, unknown>): Response {
     return res.status(200).send({
       ok: true,
       ...payload
     })
   }
 
-  errorResponse(res: Response, error: ApiErrorType): Response {
+  static errorResponse(res: Response, error: ApiErrorType): Response {
     return res.status(400).send({
       ok: false,
       error
