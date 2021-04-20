@@ -5,7 +5,7 @@ import User from '@Entities/User'
 
 @EntityRepository(Folder)
 export default class FolderRepository extends Repository<Folder> {
-  findByUser(user: User): Promise<Folder | undefined> {
-    return this.findOne({ user })
+  findByUser(user: User): Promise<Folder[]> {
+    return this.find({ where: { user } })
   }
 }

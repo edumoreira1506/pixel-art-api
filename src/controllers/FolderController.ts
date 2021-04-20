@@ -25,6 +25,16 @@ class FolderController extends BaseController<Folder, FolderRepository> {
       })
       .catch(errors => BaseController.errorResponse(res, errors))
   }
+
+  index = async (req: RequestWithUserInfo, res: Response): Promise<Response> => {
+    const user = req.user
+
+    if (!user) throw new UserError()
+
+    const folders = await this.repository.findByUser(user)
+
+    return BaseController.successResponse(res, { folders })
+  }
 }
 
 export default new FolderController(FolderRepository)

@@ -12,5 +12,6 @@ routes.post('/auth', UserController.auth)
 routes.post('/users', UserController.store)
 
 routes.post('/folders', withAuth, FolderController.store)
+routes.get('/folders', withAuth, FolderController.index)
 
 export default routes
