@@ -14,7 +14,7 @@ const withAuthFactory = (errorCallback: (res: Response, error: ApiErrorType) => 
     if (!token) return errorCallback(response, new InvalidTokenError('Token not sended').getError())
 
     return TokenService.open(token)
-      .then(async (decoded: Record<string, unknown>): Promise<any> => {
+      .then(async (decoded: Record<string, unknown>): Promise<void> => {
         const userId = decoded.id
         const user = await UserController.repository.findById(String(userId))
 
