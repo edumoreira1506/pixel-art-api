@@ -15,5 +15,6 @@ routes.post('/users', UserController.store)
 routes.post('/folders', withAuth, FolderController.store)
 routes.get('/folders', withAuth, FolderController.index)
 routes.delete('/folders/:folderId', withAuth, withFolderParam, FolderController.remove)
+routes.patch('/folders/:folderId', withAuth, withFolderParam, FolderController.update)
 
 export default routes
