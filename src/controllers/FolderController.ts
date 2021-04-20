@@ -3,12 +3,12 @@ import { Response } from 'express'
 import BaseController from '@Controllers/BaseController'
 import Folder from '@Entities/Folder'
 import FolderRepository from '@Repositories/FolderRepository'
-import { RequestWithUserInfo } from '@Types/request'
+import { AppRequest } from '@Types/request'
 import { FolderDTOBuilder } from '@Dtos/FolderDTO'
 import UserError from '@Errors/UserError'
 
 class FolderController extends BaseController<Folder, FolderRepository> {
-  store = async (req: RequestWithUserInfo, res: Response): Promise<Response> => {
+  store = async (req: AppRequest, res: Response): Promise<Response> => {
     const { name } = req.body
     const user = req.user
 
@@ -26,14 +26,22 @@ class FolderController extends BaseController<Folder, FolderRepository> {
       .catch(errors => BaseController.errorResponse(res, errors))
   }
 
-  index = async (req: RequestWithUserInfo, res: Response): Promise<Response> => {
+  index = async (req: AppRequest, res: Response): Promise<Response> => {
     const user = req.user
 
     if (!user) throw new UserError()
 
-    const folders = await this.repository.findByUser(user)
+    return this.repository.findByUser(user)
+      .then((folders) => BaseController.successResponse(res, { folders }))
+      .catch(errors => BaseController.errorResponse(res, errors))
+  }
 
-    return BaseController.successResponse(res, { folders })
+  remove = async (req: AppRequest, res: Response): Promise<Response> => {
+    const folderId = req.params.folderId
+
+    return this.repository.delete({ id: folderId })
+      .then(() => BaseController.successResponse(res, { message: 'Deleted!' }))
+      .catch(errors => BaseController.errorResponse(res, errors))
   }
 }
 

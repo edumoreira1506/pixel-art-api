@@ -5,10 +5,10 @@ import InvalidTokenError from '@Errors/InvalidTokenError'
 import TokenService from '@Services/TokenService'
 import BaseController from '@Controllers/BaseController'
 import UserController from '@Controllers/UserController'
-import { RequestWithUserInfo } from '@Types/request'
+import { AppRequest } from '@Types/request'
 
 const withAuthFactory = (errorCallback: (res: Response, error: ApiErrorType) => Response) => {
-  return (request: RequestWithUserInfo, response: Response, next: NextFunction): any => {
+  return (request: AppRequest, response: Response, next: NextFunction): any => {
     const token = request?.header('Authorization')
 
     if (!token) return errorCallback(response, new InvalidTokenError('Token not sended').getError())
