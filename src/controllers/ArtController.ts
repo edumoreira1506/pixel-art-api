@@ -60,6 +60,14 @@ class ArtController extends BaseController<Art, ArtRepository> {
       })
       .catch(errors => BaseController.errorResponse(res, errors))
   }
+
+  remove = async (req: AppRequest, res: Response): Promise<Response> => {
+    const artId = req.params.artId
+
+    return this.repository.delete({ id: artId })
+      .then(() => BaseController.successResponse(res, { message: 'Deleted!' }))
+      .catch(errors => BaseController.errorResponse(res, errors))
+  }
 }
 
 export default new ArtController(ArtRepository)
