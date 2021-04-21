@@ -1,7 +1,6 @@
 import { Response } from 'express'
 
 import BaseController from '@Controllers/BaseController'
-import FolderRepository from '@Repositories/FolderRepository'
 import { AppRequest } from '@Types/request'
 import ArtRepository from '@Repositories/ArtRepository'
 import Art from '@Entities/Art'
@@ -9,7 +8,7 @@ import { ArtDTOBuilder } from '@Dtos/ArtDTO'
 import FolderError from '@Errors/FolderError'
 
 class ArtController extends BaseController<Art, ArtRepository> {
-  store = async (req: AppRequest, res: Response): Promise<any> => {
+  store = async (req: AppRequest, res: Response): Promise<Response<any, Record<string, any>>> => {
     const { name, itemWidth, marginBetween, items } = req.body
     const { folder } = req
 
@@ -23,20 +22,22 @@ class ArtController extends BaseController<Art, ArtRepository> {
       .setItems(items)
       .build()
       .then(async (artDTO: Art) => {
-        const art = new Art()
+        const art = await this.repository.save(artDTO)
 
-        art.name = artDTO.name
-        art.itemWidth = artDTO.itemWidth
-        art.items = artDTO.items
-        art.marginBetween = artDTO.marginBetween
-        folder.arts.push(art)
-
-        await this.repository.save(folder)
-
-        return BaseController.successResponse(res, { art: folder.arts })
+        return BaseController.successResponse(res, { art })
       })
       .catch(errors => BaseController.errorResponse(res, errors))
   }
+
+  index = async (req: AppRequest, res: Response) => {
+    const folder = req.folder
+
+    if (!folder) throw new FolderError()
+
+    const arts = folder.arts
+
+    return BaseController.successResponse(res, { arts })
+  }
 }
 
-export default new ArtController(FolderRepository)
+export default new ArtController(ArtRepository)

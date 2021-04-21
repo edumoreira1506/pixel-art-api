@@ -17,7 +17,7 @@ export default class Art {
   marginBetween: number;
 
   @Column('json')
-  items: string;
+  items: Array<Array<string>>;
 
   @ManyToOne(() => Folder, folder => folder.arts)
   @JoinColumn()

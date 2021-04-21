@@ -65,8 +65,8 @@ export class ArtDTOBuilder {
         art.folder = this._folder
         art.name = this._name
         art.marginBetween = this._marginBetween
-        art.items = JSON.stringify(this._items)
-        art.itemWidth - this._itemWidth
+        art.items = this._items
+        art.itemWidth = this._itemWidth
 
         resolve(art)
       } catch(error) {

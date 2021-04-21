@@ -18,6 +18,7 @@ routes.get('/folders', withAuth, FolderController.index)
 routes.delete('/folders/:folderId', withAuth, withFolderParam, FolderController.remove)
 routes.patch('/folders/:folderId', withAuth, withFolderParam, FolderController.update)
 
-routes.post('/folders/:folderId/art', withAuth, withFolderParam, ArtController.store)
+routes.post('/folders/:folderId/arts', withAuth, withFolderParam, ArtController.store)
+routes.get('/folders/:folderId/arts', withAuth, withFolderParam, ArtController.index)
 
 export default routes
