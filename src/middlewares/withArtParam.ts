@@ -21,16 +21,13 @@ const withArtParamFactory = (errorCallback: (res: Response, error: ApiErrorType)
         if (!folder) throw new FolderError()
         if (!user) throw new UserError()
 
-        if (art.folder.id !== folder.id) throw new FolderError
+        if (art.folder.id !== folder.id) throw new FolderError()
 
         request.art = art
 
         next()
       })
-      .catch((error) => {
-        console.log(error)
-        return errorCallback(response, error)
-      })
+      .catch((error) => errorCallback(response, error))
   }
 }
 
