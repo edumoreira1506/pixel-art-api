@@ -1,3 +1,4 @@
+import ApiError from '@Errors/ApiError'
 import { ApiErrorType } from '@Types/apiErrors'
 import { Response } from 'express'
 import {  getCustomRepository, ObjectType } from 'typeorm'
@@ -27,5 +28,29 @@ export default class BaseController<T, I> {
       ok: false,
       error
     })
+  }
+
+  static errorHandler() {
+    return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+      const originalMethod = descriptor.value
+  
+      descriptor.value = function(...args: any[]) {
+        try {
+          const result = originalMethod.apply(this, args)
+                  
+          if (result && typeof result.then === 'function' && typeof result.catch === 'function') {
+            return result.catch((error: ApiError) => {
+              return BaseController.errorResponse(args[1], error)
+            })
+          }
+  
+          return result
+        } catch (error) {
+          return BaseController.errorResponse(args[1], error)
+        }
+      }
+  
+      return descriptor
+    }
   }
 }

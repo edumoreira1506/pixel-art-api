@@ -55,7 +55,8 @@ export default class UserBuilder {
   }
 
   async build(): Promise<User> {
-    this.validate()
+    await this.validate()
+
     this.encryptPassword()
 
     const user = new User()

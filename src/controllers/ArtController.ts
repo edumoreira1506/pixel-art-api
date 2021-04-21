@@ -8,71 +8,72 @@ import ArtBuilder from '@Builders/ArtBuilder'
 import FolderError from '@Errors/FolderError'
 
 class ArtController extends BaseController<Art, ArtRepository> {
-  store = async (req: AppRequest, res: Response): Promise<Response> => {
+  constructor(repository: any) {
+    super(repository)
+
+    this.store = this.store.bind(this)
+    this.index = this.index.bind(this)
+    this.update = this.update.bind(this)
+    this.remove = this.remove.bind(this)
+  }
+
+  @BaseController.errorHandler()
+  async store(req: AppRequest, res: Response): Promise<Response> {
     const { name, itemWidth, marginBetween, items } = req.body
     const { folder } = req
 
-    try {
-      if (!folder) throw new FolderError()
+    if (!folder) throw new FolderError()
 
-      const artDTO = new ArtBuilder()
-        .setFolder(folder)
-        .setName(name)
-        .setItemWidth(itemWidth)
-        .setMarginBetween(marginBetween)
-        .setItems(items)
-        .build()
-      const art = await this.repository.save(artDTO)
+    const artDTO = new ArtBuilder()
+      .setFolder(folder)
+      .setName(name)
+      .setItemWidth(itemWidth)
+      .setMarginBetween(marginBetween)
+      .setItems(items)
+      .build()
+    const art = await this.repository.save(artDTO)
 
-      return BaseController.successResponse(res, { art })
-    } catch (errors: any) {
-      return BaseController.errorResponse(res, errors)
-    }
+    return BaseController.successResponse(res, { art })
   }
 
-  index = async (req: AppRequest, res: Response): Promise<Response> => {
-    try {
-      const folder = req.folder
+  @BaseController.errorHandler()
+  async index(req: AppRequest, res: Response): Promise<Response> {
+    const folder = req.folder
 
-      if (!folder) throw new FolderError()
+    if (!folder) throw new FolderError()
   
-      const arts = folder.arts
+    const arts = folder.arts
   
-      return BaseController.successResponse(res, { arts })
-    } catch (errors: any) {
-      return BaseController.errorResponse(res, errors)
-    }
+    return BaseController.successResponse(res, { arts })
   }
 
-  update = async (req: AppRequest, res: Response): Promise<Response> => {
+  @BaseController.errorHandler()
+  async update(req: AppRequest, res: Response): Promise<Response> {
     const artId = req.params.artId
     const folder = req.folder
     const { name, itemWidth, marginBetween, items } = req.body
    
-    try {
-      if (!folder) throw new FolderError()
+    if (!folder) throw new FolderError()
 
-      const artDTO = new ArtBuilder()
-        .setFolder(folder)
-        .setName(name)
-        .setItemWidth(itemWidth)
-        .setMarginBetween(marginBetween)
-        .setItems(items)
-        .build()
-      await this.repository.update({ id: artId }, artDTO)
+    const artDTO = new ArtBuilder()
+      .setFolder(folder)
+      .setName(name)
+      .setItemWidth(itemWidth)
+      .setMarginBetween(marginBetween)
+      .setItems(items)
+      .build()
+    await this.repository.update({ id: artId }, artDTO)
 
-      return BaseController.successResponse(res, { message: 'Updated!' })
-    } catch (errors: any) {
-      return BaseController.errorResponse(res, errors)
-    }
+    return BaseController.successResponse(res, { message: 'Updated!' })
   }
 
-  remove = async (req: AppRequest, res: Response): Promise<Response> => {
+  @BaseController.errorHandler()
+  async remove(req: AppRequest, res: Response): Promise<Response> {
     const artId = req.params.artId
 
-    return this.repository.delete({ id: artId })
-      .then(() => BaseController.successResponse(res, { message: 'Deleted!' }))
-      .catch(errors => BaseController.errorResponse(res, errors))
+    await this.repository.delete({ id: artId })
+
+    return BaseController.successResponse(res, { message: 'Deleted!' })
   }
 }
 
