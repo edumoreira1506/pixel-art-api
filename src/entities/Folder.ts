@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn  } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn  } from 'typeorm'
 
 import User from '@Entities/User'
+import Art from '@Entities/Art'
 
 @Entity('folders')
 export default class Folder {
@@ -10,7 +11,10 @@ export default class Folder {
   @Column({ type: 'varchar', unique: true })
   name: string;
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User, user => user.folders)
   @JoinColumn()
   user: User;
+
+  @OneToMany(() => Art, art => art.folder)
+  arts: Art[];
 }

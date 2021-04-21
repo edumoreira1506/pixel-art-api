@@ -13,7 +13,7 @@ class FolderController extends BaseController<Folder, FolderRepository> {
     const user = req.user
 
     if (!user) throw new UserError()
-    
+
     return await new FolderDTOBuilder()
       .setName(name)
       .setUser(user)
