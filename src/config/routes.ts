@@ -6,6 +6,7 @@ import ArtController from '@Controllers/ArtController'
 
 import withAuth from '@Middlewares/withAuth'
 import withFolderParam from '@Middlewares/withFolderParam'
+import withArtParam from '@Middlewares/withArtParam'
 
 const routes = express.Router()
 
@@ -20,5 +21,6 @@ routes.patch('/folders/:folderId', withAuth, withFolderParam, FolderController.u
 
 routes.post('/folders/:folderId/arts', withAuth, withFolderParam, ArtController.store)
 routes.get('/folders/:folderId/arts', withAuth, withFolderParam, ArtController.index)
+routes.patch('/folders/:folderId/arts/:artId', withAuth, withFolderParam, withArtParam, ArtController.update)
 
 export default routes

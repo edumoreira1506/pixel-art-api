@@ -10,6 +10,6 @@ export default class ArtRepository extends Repository<Art> {
   }
 
   findById(id: string): Promise<Art | undefined> {
-    return this.findOne({ id })
+    return this.findOne({ id }, { relations: ['folder'] })
   }
 }

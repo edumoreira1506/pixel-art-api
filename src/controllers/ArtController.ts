@@ -38,6 +38,28 @@ class ArtController extends BaseController<Art, ArtRepository> {
 
     return BaseController.successResponse(res, { arts })
   }
+
+  update = async (req: AppRequest, res: Response): Promise<Response> => {
+    const artId = req.params.artId
+    const folder = req.folder
+    const { name, itemWidth, marginBetween, items } = req.body
+   
+    if (!folder) throw new FolderError()
+
+    return await new ArtDTOBuilder()
+      .setFolder(folder)
+      .setName(name)
+      .setItemWidth(itemWidth)
+      .setMarginBetween(marginBetween)
+      .setItems(items)
+      .build()
+      .then(async artDTO => {
+        await this.repository.update({ id: artId }, artDTO)
+
+        return BaseController.successResponse(res, { message: 'Updated!' })
+      })
+      .catch(errors => BaseController.errorResponse(res, errors))
+  }
 }
 
 export default new ArtController(ArtRepository)
