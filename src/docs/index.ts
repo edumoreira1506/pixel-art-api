@@ -1,6 +1,7 @@
 import dotEnv from 'dotenv'
 
 import user from './user'
+import folder from './folder'
 
 dotEnv.config()
 
@@ -16,5 +17,6 @@ export default {
   produces: [ 'application/json' ],
   paths: {
     ...user,
+    ...folder,
   }
 }
