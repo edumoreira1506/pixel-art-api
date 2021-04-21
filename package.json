@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "jest",
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --ignore-watch node_modules --no-notify index.ts",
     "lint": "eslint .",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm",
     "db:migrate": "npm run typeorm migration:run",
     "db:schema:sync": "yarn typeorm schema:sync",
-    "db:schema:drop": "yarn typeorm schema:drop"
+    "db:schema:drop": "yarn typeorm schema:drop",
+    "start": "node build/index.js"
   },
   "repository": {
     "type": "git",
