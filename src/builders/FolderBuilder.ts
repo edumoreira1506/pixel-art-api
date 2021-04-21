@@ -2,17 +2,17 @@ import Folder from '@Entities/Folder'
 import User from '@Entities/User'
 import ValidationError from '@Errors/ValidatonError'
 
-export class FolderDTOBuilder {
+export default class FolderBuilder {
   private _user: User;
   private _name = '';
 
-  setName(name: string): FolderDTOBuilder {
+  setName(name: string): FolderBuilder {
     this._name = name
 
     return this
   }
 
-  setUser(user: User): FolderDTOBuilder {
+  setUser(user: User): FolderBuilder {
     this._user = user
 
     return this
@@ -31,20 +31,14 @@ export class FolderDTOBuilder {
     }
   }
 
-  build(): Promise<Folder> {
-    return new Promise((resolve, reject) => {
-      try {
-        this.validate()
+  build():Folder {
+    this.validate()
  
-        const folder = new Folder()
+    const folder = new Folder()
 
-        folder.user = this._user
-        folder.name = this._name
+    folder.user = this._user
+    folder.name = this._name
 
-        return resolve(folder)
-      } catch (error) {
-        return reject(error)
-      }
-    })
+    return folder
   }
 }

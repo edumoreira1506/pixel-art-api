@@ -4,7 +4,7 @@ import BaseController from '@Controllers/BaseController'
 import Folder from '@Entities/Folder'
 import FolderRepository from '@Repositories/FolderRepository'
 import { AppRequest } from '@Types/request'
-import { FolderDTOBuilder } from '@Dtos/FolderDTO'
+import FolderBuilder from '@Builders/FolderBuilder'
 import UserError from '@Errors/UserError'
 
 class FolderController extends BaseController<Folder, FolderRepository> {
@@ -12,28 +12,33 @@ class FolderController extends BaseController<Folder, FolderRepository> {
     const { name } = req.body
     const user = req.user
 
-    if (!user) throw new UserError()
+    try {
+      if (!user) throw new UserError()
 
-    return await new FolderDTOBuilder()
-      .setName(name)
-      .setUser(user)
-      .build()
-      .then(async folderDTO => {
-        const folder = await this.repository.save(folderDTO)
+      const folderDTO = new FolderBuilder()
+        .setName(name)
+        .setUser(user)
+        .build()
+      const folder = await this.repository.save(folderDTO)
 
-        return BaseController.successResponse(res, { folder })
-      })
-      .catch(errors => BaseController.errorResponse(res, errors))
+      return BaseController.successResponse(res, { folder })
+    } catch(errors: any) {
+      return BaseController.errorResponse(res, errors)
+    }
   }
 
   index = async (req: AppRequest, res: Response): Promise<Response> => {
     const user = req.user
 
-    if (!user) throw new UserError()
+    try {
+      if (!user) throw new UserError()
 
-    return this.repository.findByUser(user)
-      .then((folders) => BaseController.successResponse(res, { folders }))
-      .catch(errors => BaseController.errorResponse(res, errors))
+      const folders = await this.repository.findByUser(user)
+
+      return BaseController.successResponse(res, { folders })
+    } catch(errors: any) {
+      return BaseController.errorResponse(res, errors)
+    }
   }
 
   remove = async (req: AppRequest, res: Response): Promise<Response> => {
@@ -49,18 +54,19 @@ class FolderController extends BaseController<Folder, FolderRepository> {
     const user = req.user
     const { name } = req.body
    
-    if (!user) throw new UserError()
+    try {
+      if (!user) throw new UserError()
 
-    return await new FolderDTOBuilder()
-      .setName(name)
-      .setUser(user)
-      .build()
-      .then(async folderDTO => {
-        await this.repository.update({ id: folderId }, folderDTO)
+      const folderDTO = new FolderBuilder()
+        .setName(name)
+        .setUser(user)
+        .build()
+      await this.repository.update({ id: folderId }, folderDTO)
 
-        return BaseController.successResponse(res, { message: 'Updated!' })
-      })
-      .catch(errors => BaseController.errorResponse(res, errors))
+      return BaseController.successResponse(res, { message: 'Updated!' })
+    } catch(errors: any) {
+      return BaseController.errorResponse(res, errors)
+    }
   }
 }
 

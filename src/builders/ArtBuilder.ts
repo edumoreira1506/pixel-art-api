@@ -2,38 +2,38 @@ import Art from '@Entities/Art'
 import Folder from '@Entities/Folder'
 import ValidationError from '@Errors/ValidatonError'
 
-export class ArtDTOBuilder {
+export default class ArtBuilder {
   private _folder: Folder;
   private _name = '';
   private _itemWidth: number;
   private _marginBetween: number;
   private _items: Array<Array<string>>;
 
-  setName(name: string): ArtDTOBuilder {
+  setName(name: string): ArtBuilder {
     this._name = name
 
     return this
   }
 
-  setFolder(folder: Folder): ArtDTOBuilder {
+  setFolder(folder: Folder): ArtBuilder {
     this._folder = folder
 
     return this
   }
 
-  setItemWidth(itemWidth: number): ArtDTOBuilder {
+  setItemWidth(itemWidth: number): ArtBuilder {
     this._itemWidth = itemWidth
 
     return this
   }
 
-  setMarginBetween(marginBetween: number): ArtDTOBuilder {
+  setMarginBetween(marginBetween: number): ArtBuilder {
     this._marginBetween = marginBetween
 
     return this
   }
 
-  setItems(items: Array<Array<string>>): ArtDTOBuilder {
+  setItems(items: Array<Array<string>>): ArtBuilder {
     this._items = items
 
     return this
@@ -55,23 +55,17 @@ export class ArtDTOBuilder {
     }
   }
 
-  build(): Promise<Art> {
-    return new Promise((resolve, reject) => {
-      try {
-        this.validate()
+  build(): Art {
+    this.validate()
 
-        const art = new Art()
+    const art = new Art()
 
-        art.folder = this._folder
-        art.name = this._name
-        art.marginBetween = this._marginBetween
-        art.items = this._items
-        art.itemWidth = this._itemWidth
+    art.folder = this._folder
+    art.name = this._name
+    art.marginBetween = this._marginBetween
+    art.items = this._items
+    art.itemWidth = this._itemWidth
 
-        resolve(art)
-      } catch(error) {
-        reject(error)
-      }
-    })
+    return art
   }
 }

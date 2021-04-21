@@ -22,7 +22,7 @@
       "@Config/*": ["src/config/*"],
       "@Controllers/*": ["src/controllers/*"],
       "@Entities/*": ["src/entities/*"],
-      "@Dtos/*": ["src/dtos/*"],
+      "@Builders/*": ["src/builders/*"],
       "@Errors/*": ["src/errors/*"],
       "@Repositories/*": ["src/repositories/*"],
       "@Services/*": ["src/services/*"],

@@ -3,7 +3,7 @@ import { NextFunction, Response } from 'express'
 import { ApiErrorType } from '@Types/apiErrors'
 import BaseController from '@Controllers/BaseController'
 import { AppRequest } from '@Types/request'
-import InvalidFolderError from '@Errors/InvalidFolderError'
+import FolderError from '@Errors/FolderError'
 import FolderController from '@Controllers/FolderController'
 import UserError from '@Errors/UserError'
 import AuthError from '@Errors/AuthError'
@@ -14,7 +14,7 @@ const withFolderParamFactory = (errorCallback: (res: Response, error: ApiErrorTy
 
     FolderController.repository.findById(String(folderId))
       .then(folder => {
-        if (!folder) throw new InvalidFolderError()
+        if (!folder) throw new FolderError()
 
         const user = request.user
 
