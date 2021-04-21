@@ -2,6 +2,7 @@ import dotEnv from 'dotenv'
 
 import user from './user'
 import folder from './folder'
+import art from './art'
 
 dotEnv.config()
 
@@ -18,5 +19,6 @@ export default {
   paths: {
     ...user,
     ...folder,
+    ...art,
   }
 }
