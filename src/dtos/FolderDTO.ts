@@ -28,7 +28,7 @@ export class FolderDTOBuilder {
     return this
   }
 
-  async validate(): Promise<void> {
+  validate(): void {
     const errors = []
 
     if (!this._user) errors.push('Invalid user.')
@@ -41,12 +41,12 @@ export class FolderDTOBuilder {
     }
   }
 
-  async build(): Promise<FolderDTO> {
-    await this.validate()
+  build(): Promise<FolderDTO> {
+    this.validate()
 
-    return new FolderDTO({
+    return new Promise((resolve) => resolve(new FolderDTO({
       user: this._user,
       name: this._name,
-    })
+    })))
   }
 }
