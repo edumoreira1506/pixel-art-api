@@ -42,12 +42,12 @@ export default class BaseController<T, I> {
           const result = originalMethod.apply(this, args)
                   
           if (result && typeof result.then === 'function' && typeof result.catch === 'function') {
-            return result.catch((error: ApiError) => BaseController.errorResponse(response, error))
+            return result.catch((error: ApiError) => BaseController.errorResponse(response, error?.getError()))
           }
   
           return result
         } catch (error) {
-          return BaseController.errorResponse(response, error)
+          return BaseController.errorResponse(response, error?.getError())
         }
       }
   

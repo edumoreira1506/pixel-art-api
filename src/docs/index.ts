@@ -1,5 +1,7 @@
 import dotEnv from 'dotenv'
 
+import user from './user'
+
 dotEnv.config()
 
 export default {
@@ -12,5 +14,7 @@ export default {
   schemes: [ 'http', 'https' ],
   consumes: [ 'application/json' ],
   produces: [ 'application/json' ],
-  paths: {}
+  paths: {
+    ...user,
+  }
 }
