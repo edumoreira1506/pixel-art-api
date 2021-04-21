@@ -1,16 +1,6 @@
+import Folder from '@Entities/Folder'
 import User from '@Entities/User'
 import ValidationError from '@Errors/ValidatonError'
-import { FolderDTOType } from '@Types/dtos'
-
-export default class FolderDTO {
-  public name: string;
-  public user: User;
-
-  constructor({ name, user }: FolderDTOType) {
-    this.name = name
-    this.user = user
-  }
-}
 
 export class FolderDTOBuilder {
   private _user: User;
@@ -41,12 +31,20 @@ export class FolderDTOBuilder {
     }
   }
 
-  build(): Promise<FolderDTO> {
-    this.validate()
+  build(): Promise<Folder> {
+    return new Promise((resolve, reject) => {
+      try {
+        this.validate()
+ 
+        const folder = new Folder()
 
-    return new Promise((resolve) => resolve(new FolderDTO({
-      user: this._user,
-      name: this._name,
-    })))
+        folder.user = this._user
+        folder.name = this._name
+
+        return resolve(folder)
+      } catch (error) {
+        return reject(error)
+      }
+    })
   }
 }

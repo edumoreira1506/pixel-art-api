@@ -1,17 +1,7 @@
+import User from '@Entities/User'
 import ValidationError from '@Errors/ValidatonError'
 import UserRepository from '@Repositories/UserRepository'
 import EncryptService from '@Services/EncryptService'
-import { UserDTOType } from '@Types/dtos'
-
-export default class UserDTO {
-  public username: string;
-  public password: string;
-
-  constructor({ username, password }: UserDTOType) {
-    this.username = username
-    this.password = password
-  }
-}
 
 export class UserDTOBuilder {
   private _username = '';
@@ -64,14 +54,21 @@ export class UserDTOBuilder {
     }
   }
 
-  async build(): Promise<UserDTO> {
-    await this.validate()
-
-    this.encryptPassword()
-
-    return new UserDTO({
-      username: this._username,
-      password: this._password,
+  async build(): Promise<User> {
+    return new Promise((resolve, reject) => {
+      try {
+        this.validate()
+        this.encryptPassword()
+    
+        const user = new User()
+    
+        user.username = this._username
+        user.password = this._password
+    
+        return resolve(user)
+      } catch(error) {
+        return reject(error)
+      }
     })
   }
 }
