@@ -52,3 +52,7 @@ For run eslint.
 ```console
 $ yarn lint
 ```
+
+## Models
+
+![Models diagram](/src/docs/model-diagram.jpg?raw=true "Model diagram")
