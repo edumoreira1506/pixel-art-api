@@ -1,19 +1,9 @@
+import User from '@Entities/User'
 import ValidationError from '@Errors/ValidatonError'
 import UserRepository from '@Repositories/UserRepository'
 import EncryptService from '@Services/EncryptService'
-import { UserDTOType } from '@Types/dtos'
 
-export default class UserDTO {
-  public username: string;
-  public password: string;
-
-  constructor({ username, password }: UserDTOType) {
-    this.username = username
-    this.password = password
-  }
-}
-
-export class UserDTOBuilder {
+export default class UserBuilder {
   private _username = '';
   private _password = '';
   private _confirmPassword = '';
@@ -23,19 +13,19 @@ export class UserDTOBuilder {
     this._repository = userRepository
   }
 
-  setUsername(username: string): UserDTOBuilder {
+  setUsername(username: string): UserBuilder {
     this._username = username
 
     return this
   }
 
-  setPassword(password: string): UserDTOBuilder {
+  setPassword(password: string): UserBuilder {
     this._password = password
 
     return this
   }
 
-  setConfirmPassword(confirmPassword: string): UserDTOBuilder {
+  setConfirmPassword(confirmPassword: string): UserBuilder {
     this._confirmPassword = confirmPassword
 
     return this
@@ -60,18 +50,20 @@ export class UserDTOBuilder {
     if (errors.length) {
       const errorMessage = errors.join(' ')
 
-      throw new ValidationError(errorMessage).getError()
+      throw new ValidationError(errorMessage)
     }
   }
 
-  async build(): Promise<UserDTO> {
+  async build(): Promise<User> {
     await this.validate()
 
     this.encryptPassword()
 
-    return new UserDTO({
-      username: this._username,
-      password: this._password,
-    })
+    const user = new User()
+
+    user.username = this._username
+    user.password = this._password
+
+    return user
   }
 }

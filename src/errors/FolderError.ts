@@ -1,11 +1,11 @@
 import ApiError from '@Errors/ApiError'
 
-export default class InvalidFolderError extends ApiError {
+export default class FolderError extends ApiError {
   constructor() {
     const message = 'Invalid folder.'
 
     super(message)
 
-    this.name = 'InvalidFolderError'
+    this.name = 'FolderError'
   }
 }

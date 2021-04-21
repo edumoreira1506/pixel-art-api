@@ -4,63 +4,71 @@ import BaseController from '@Controllers/BaseController'
 import Folder from '@Entities/Folder'
 import FolderRepository from '@Repositories/FolderRepository'
 import { AppRequest } from '@Types/request'
-import { FolderDTOBuilder } from '@Dtos/FolderDTO'
+import FolderBuilder from '@Builders/FolderBuilder'
 import UserError from '@Errors/UserError'
 
 class FolderController extends BaseController<Folder, FolderRepository> {
-  store = async (req: AppRequest, res: Response): Promise<Response> => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  constructor(repository: any) {
+    super(repository)
+
+    this.store = this.store.bind(this)
+    this.index = this.index.bind(this)
+    this.update = this.update.bind(this)
+    this.remove = this.remove.bind(this)
+  }
+
+  @BaseController.errorHandler()
+  async store(req: AppRequest, res: Response): Promise<Response> {
     const { name } = req.body
     const user = req.user
 
     if (!user) throw new UserError()
-    
-    return await new FolderDTOBuilder()
+
+    const folderDTO = new FolderBuilder()
       .setName(name)
       .setUser(user)
       .build()
-      .then(async folderDTO => {
-        const folder = await this.repository.save(folderDTO)
 
-        return BaseController.successResponse(res, { folder })
-      })
-      .catch(errors => BaseController.errorResponse(res, errors))
+    const folder = await this.repository.save(folderDTO)
+
+    return BaseController.successResponse(res, { folder })
   }
 
-  index = async (req: AppRequest, res: Response): Promise<Response> => {
+  @BaseController.errorHandler()
+  async index(req: AppRequest, res: Response): Promise<Response> {
     const user = req.user
 
     if (!user) throw new UserError()
 
-    return this.repository.findByUser(user)
-      .then((folders) => BaseController.successResponse(res, { folders }))
-      .catch(errors => BaseController.errorResponse(res, errors))
+    const folders = await this.repository.findByUser(user)
+
+    return BaseController.successResponse(res, { folders })
   }
 
-  remove = async (req: AppRequest, res: Response): Promise<Response> => {
+  @BaseController.errorHandler()
+  @BaseController.removeHandler()
+  async remove(req: AppRequest): Promise<void> {
     const folderId = req.params.folderId
 
-    return this.repository.delete({ id: folderId })
-      .then(() => BaseController.successResponse(res, { message: 'Deleted!' }))
-      .catch(errors => BaseController.errorResponse(res, errors))
+    await this.repository.delete({ id: folderId })
   }
 
-  update = async (req: AppRequest, res: Response): Promise<Response> => {
+  @BaseController.errorHandler()
+  @BaseController.updateHandler()
+  async update(req: AppRequest): Promise<void> {
     const folderId = req.params.folderId
     const user = req.user
     const { name } = req.body
    
     if (!user) throw new UserError()
 
-    return await new FolderDTOBuilder()
+    const folderDTO = new FolderBuilder()
       .setName(name)
       .setUser(user)
       .build()
-      .then(async folderDTO => {
-        await this.repository.update({ id: folderId }, folderDTO)
 
-        return BaseController.successResponse(res, { message: 'Updated!' })
-      })
-      .catch(errors => BaseController.errorResponse(res, errors))
+    await this.repository.update({ id: folderId }, folderDTO)
   }
 }
 

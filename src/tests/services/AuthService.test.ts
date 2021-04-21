@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import AuthError from '@Errors/AuthError'
 import AuthService from '@Services/AuthService'
 import EncryptService from '@Services/EncryptService'

@@ -1,3 +1,4 @@
+import ApiError from '@Errors/ApiError'
 import { ApiErrorType } from '@Types/apiErrors'
 import { Response } from 'express'
 import {  getCustomRepository, ObjectType } from 'typeorm'
@@ -27,5 +28,64 @@ export default class BaseController<T, I> {
       ok: false,
       error
     })
+  }
+
+  static errorHandler() {
+    return (_target: unknown, _propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor => {
+      const originalMethod = descriptor.value
+  
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      descriptor.value = function(...args: any[]) {
+        const response = args[1]
+
+        try {
+          const result = originalMethod.apply(this, args)
+                  
+          if (result && typeof result.then === 'function' && typeof result.catch === 'function') {
+            return result.catch((error: ApiError) => BaseController.errorResponse(response, error))
+          }
+  
+          return result
+        } catch (error) {
+          return BaseController.errorResponse(response, error)
+        }
+      }
+  
+      return descriptor
+    }
+  }
+
+  static updateHandler() {
+    return (_target: unknown, _propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor => {
+      const originalMethod = descriptor.value
+  
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      descriptor.value = async function(...args: any[]) {
+        const response = args[1]
+
+        await originalMethod.apply(this, args)
+
+        return BaseController.successResponse(response, { message: 'Updated!' })
+      }
+
+      return descriptor
+    }
+  }
+
+  static removeHandler() {
+    return (_target: unknown, _propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor => {
+      const originalMethod = descriptor.value
+  
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      descriptor.value = async function(...args: any[]) {
+        const response = args[1]
+
+        await originalMethod.apply(this, args)
+
+        return BaseController.successResponse(response, { message: 'Deleted!' })
+      }
+
+      return descriptor
+    }
   }
 }

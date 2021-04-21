@@ -9,6 +9,7 @@ export default class TokenService {
 
   static open(token: string): Promise<Record<string, unknown>> {
     return new Promise ((resolve, reject) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       jwt.verify(token, JWT_ENCRYPT_SECRET, (error, decoded: any): void => {
         if (error) reject(error)
   
