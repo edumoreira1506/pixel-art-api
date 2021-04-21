@@ -1,5 +1,7 @@
 # pixel-art-api
 
+> This project was made to an academic test
+
 ## Dependencies
 
 ```
@@ -52,3 +54,21 @@ For run eslint.
 ```console
 $ yarn lint
 ```
+
+## Models
+
+![Models diagram](/src/docs/model-diagram.jpg?raw=true "Model diagram")
+
+## Patterns
+
+I have followed the patterns:
+
+- Information Expert (GRASP)
+- Creator (GRASP)
+- Controller (GRASP)
+- Low Coupling (GRASP)
+- High Cohesion (GRASP)
+- Singleton (GoF)
+- Builder (GoF)
+- Method Factory (GoF)
+- Decorator (GoF)
