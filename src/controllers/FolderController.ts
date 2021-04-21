@@ -8,6 +8,7 @@ import FolderBuilder from '@Builders/FolderBuilder'
 import UserError from '@Errors/UserError'
 
 class FolderController extends BaseController<Folder, FolderRepository> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(repository: any) {
     super(repository)
 
@@ -28,6 +29,7 @@ class FolderController extends BaseController<Folder, FolderRepository> {
       .setName(name)
       .setUser(user)
       .build()
+
     const folder = await this.repository.save(folderDTO)
 
     return BaseController.successResponse(res, { folder })
@@ -45,16 +47,16 @@ class FolderController extends BaseController<Folder, FolderRepository> {
   }
 
   @BaseController.errorHandler()
-  async remove(req: AppRequest, res: Response): Promise<Response> {
+  @BaseController.removeHandler()
+  async remove(req: AppRequest): Promise<void> {
     const folderId = req.params.folderId
 
     await this.repository.delete({ id: folderId })
-
-    return BaseController.successResponse(res, { message: 'Deleted!' })
   }
 
   @BaseController.errorHandler()
-  async update(req: AppRequest, res: Response): Promise<Response> {
+  @BaseController.updateHandler()
+  async update(req: AppRequest): Promise<void> {
     const folderId = req.params.folderId
     const user = req.user
     const { name } = req.body
@@ -65,9 +67,8 @@ class FolderController extends BaseController<Folder, FolderRepository> {
       .setName(name)
       .setUser(user)
       .build()
-    await this.repository.update({ id: folderId }, folderDTO)
 
-    return BaseController.successResponse(res, { message: 'Updated!' })
+    await this.repository.update({ id: folderId }, folderDTO)
   }
 }
 

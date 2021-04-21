@@ -27,7 +27,7 @@ export default class FolderBuilder {
     if (errors.length) {
       const errorMessage = errors.join(' ')
 
-      throw new ValidationError(errorMessage).getError()
+      throw new ValidationError(errorMessage)
     }
   }
 

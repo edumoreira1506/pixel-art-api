@@ -8,6 +8,7 @@ import ArtBuilder from '@Builders/ArtBuilder'
 import FolderError from '@Errors/FolderError'
 
 class ArtController extends BaseController<Art, ArtRepository> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(repository: any) {
     super(repository)
 
@@ -31,6 +32,7 @@ class ArtController extends BaseController<Art, ArtRepository> {
       .setMarginBetween(marginBetween)
       .setItems(items)
       .build()
+
     const art = await this.repository.save(artDTO)
 
     return BaseController.successResponse(res, { art })
@@ -48,7 +50,8 @@ class ArtController extends BaseController<Art, ArtRepository> {
   }
 
   @BaseController.errorHandler()
-  async update(req: AppRequest, res: Response): Promise<Response> {
+  @BaseController.updateHandler()
+  async update(req: AppRequest): Promise<void> {
     const artId = req.params.artId
     const folder = req.folder
     const { name, itemWidth, marginBetween, items } = req.body
@@ -62,18 +65,16 @@ class ArtController extends BaseController<Art, ArtRepository> {
       .setMarginBetween(marginBetween)
       .setItems(items)
       .build()
-    await this.repository.update({ id: artId }, artDTO)
 
-    return BaseController.successResponse(res, { message: 'Updated!' })
+    await this.repository.update({ id: artId }, artDTO)
   }
 
   @BaseController.errorHandler()
-  async remove(req: AppRequest, res: Response): Promise<Response> {
+  @BaseController.removeHandler()
+  async remove(req: AppRequest): Promise<void> {
     const artId = req.params.artId
 
     await this.repository.delete({ id: artId })
-
-    return BaseController.successResponse(res, { message: 'Deleted!' })
   }
 }
 

@@ -8,6 +8,7 @@ import UserController from '@Controllers/UserController'
 import { AppRequest } from '@Types/request'
 
 const withAuthFactory = (errorCallback: (res: Response, error: ApiErrorType) => Response) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (request: AppRequest, response: Response, next: NextFunction): any => {
     const token = request?.header('Authorization')
 

@@ -7,6 +7,7 @@ import UserRepository from '@Repositories/UserRepository'
 import AuthService from '@Services/AuthService'
 
 class UserController extends BaseController<User, UserRepository> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(repository: any) {
     super(repository)
 
@@ -23,6 +24,7 @@ class UserController extends BaseController<User, UserRepository> {
       .setPassword(password)
       .setConfirmPassword(confirmPassword)
       .build()
+
     const user = await this.repository.save(userDTO)
 
     return BaseController.successResponse(res, { user })
