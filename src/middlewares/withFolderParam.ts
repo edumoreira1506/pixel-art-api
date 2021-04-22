@@ -9,10 +9,10 @@ import UserError from '@Errors/UserError'
 import AuthError from '@Errors/AuthError'
 
 const withFolderParamFactory = (errorCallback: (res: Response, error: ApiErrorType) => Response) => {
-  return async (request: AppRequest, response: Response, next: NextFunction): Promise<void> => {
+  return async (request: AppRequest, response: Response, next: NextFunction): Promise<void | Response<string, Record<string, string>>> => {
     const folderId = request?.params?.folderId
 
-    FolderController.repository.findById(String(folderId))
+    return FolderController.repository.findById(String(folderId))
       .then(folder => {
         if (!folder) throw new FolderError()
 

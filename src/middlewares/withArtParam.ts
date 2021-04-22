@@ -9,10 +9,10 @@ import ArtController from '@Controllers/ArtController'
 import FolderError from '@Errors/FolderError'
 
 const withArtParamFactory = (errorCallback: (res: Response, error: ApiErrorType) => Response) => {
-  return async (request: AppRequest, response: Response, next: NextFunction): Promise<void> => {
+  return async (request: AppRequest, response: Response, next: NextFunction): Promise<void | Response<string, Record<string, string>>> => {
     const artId = request?.params?.artId
 
-    ArtController.repository.findById(String(artId))
+    return ArtController.repository.findById(String(artId))
       .then(art => {
         if (!art) throw new ArtError()
 
