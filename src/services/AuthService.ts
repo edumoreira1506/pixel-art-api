@@ -1,7 +1,7 @@
 import AuthError from '@Errors/AuthError'
 import UserRepository from '@Repositories/UserRepository'
-import EncryptService from './EncryptService'
-import TokenService from './TokenService'
+import EncryptService from '@Services/EncryptService'
+import TokenService from '@Services/TokenService'
 
 export default class AuthService {
   static async login(username: string, password: string, userRepository: UserRepository): Promise<string> {

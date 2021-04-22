@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { ObjectType } from 'typeorm'
 
 import BaseController from '@Controllers/BaseController'
 import User from '@Entities/User'
@@ -7,8 +8,7 @@ import UserRepository from '@Repositories/UserRepository'
 import AuthService from '@Services/AuthService'
 
 class UserController extends BaseController<User, UserRepository> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  constructor(repository: any) {
+  constructor(repository: ObjectType<User>) {
     super(repository)
 
     this.auth = this.auth.bind(this)
