@@ -72,3 +72,15 @@ I have followed the patterns:
 - Builder (GoF)
 - Method Factory (GoF)
 - Decorator (GoF)
+
+## References
+
+- Node: https://nodejs.org/en/
+- Express: https://expressjs.com/pt-br/
+- Babel compiler: https://babeljs.io/docs/en/
+- Typescript: https://www.typescriptlang.org/
+- JWT: https://jwt.io/
+- TypeORM: https://typeorm.io/#/
+- Swagger: https://swagger.io/
+- Jest: https://jestjs.io/pt-BR/
+- Eslint: https://eslint.org/
