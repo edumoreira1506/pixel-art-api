@@ -73,6 +73,14 @@ I have followed the patterns:
 - Method Factory (GoF)
 - Decorator (GoF)
 
+## Academic info
+
+- Academic: Antonio Eduardo Moreira
+- Teacher: Denis Lucas Silva
+- Subject: Padrões de projeto (Project Patterns)
+- University: Universidade Tecnológica Federal do Paraná
+- Academic year: 02/2020
+
 ## References
 
 - Node: https://nodejs.org/en/
