@@ -2,6 +2,8 @@ import { createConnection } from 'typeorm'
 
 import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USERNAME } from '@Constants/database'
 
+const isProduction = process.env.PRODUCTION === 'true'
+
 export const databaseConfig = {
   type: 'postgres',
   host: DB_HOST,
@@ -11,14 +13,14 @@ export const databaseConfig = {
   database: DB_NAME,
   logging: true,
   entities: [
-    'src/entities/*.ts'
+    isProduction ? 'build/entities/*.js' : 'src/entities/*.ts'
   ],
   migrations: [
-    'src/database/migrations/**/*.ts'
+    isProduction ? 'build/database/migrations/**/*.js' : 'src/database/migrations/**/*.ts'
   ],
   subscribers: [],
   cli: {
-    migrationsDir: 'src/database/migrations'
+    migrationsDir: isProduction ? 'build/database/migrations' : 'src/database/migrations'
   }
 }
 

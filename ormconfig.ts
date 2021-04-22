@@ -1,3 +1,6 @@
-import { databaseConfig } from '@Config/database'
+const isProduction = process.env.PRODUCTION === 'true'
+const databaseConfigPath = isProduction ? './build/config/database' : './src/config/database'
 
-export default databaseConfig
+const { databaseConfig } = require(databaseConfigPath)
+
+module.exports = databaseConfig
