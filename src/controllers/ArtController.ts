@@ -1,4 +1,5 @@
 import { Response } from 'express'
+import { ObjectType } from 'typeorm'
 
 import BaseController from '@Controllers/BaseController'
 import { AppRequest } from '@Types/request'
@@ -8,8 +9,7 @@ import ArtBuilder from '@Builders/ArtBuilder'
 import FolderError from '@Errors/FolderError'
 
 class ArtController extends BaseController<Art, ArtRepository> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  constructor(repository: any) {
+  constructor(repository: ObjectType<Art>) {
     super(repository)
 
     this.store = this.store.bind(this)

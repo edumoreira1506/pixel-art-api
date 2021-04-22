@@ -1,4 +1,5 @@
 import { Response } from 'express'
+import { ObjectType } from 'typeorm'
 
 import BaseController from '@Controllers/BaseController'
 import Folder from '@Entities/Folder'
@@ -8,8 +9,7 @@ import FolderBuilder from '@Builders/FolderBuilder'
 import UserError from '@Errors/UserError'
 
 class FolderController extends BaseController<Folder, FolderRepository> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  constructor(repository: any) {
+  constructor(repository: ObjectType<Folder>) {
     super(repository)
 
     this.store = this.store.bind(this)
