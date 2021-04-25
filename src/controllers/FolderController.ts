@@ -68,7 +68,7 @@ class FolderController extends BaseController<Folder, FolderRepository> {
       .setUser(user)
       .build()
 
-    await this.repository.update({ id: folderId }, folderDTO)
+    await this.repository.update({ id: folderId }, { name: folderDTO.name })
   }
 }
 
