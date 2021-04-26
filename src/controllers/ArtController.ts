@@ -67,7 +67,12 @@ class ArtController extends BaseController<Art, ArtRepository> {
       .setItems(items)
       .build()
 
-    await this.repository.update({ id: artId }, artDTO)
+    await this.repository.update({ id: artId }, {
+      name: artDTO.name,
+      itemWidth: artDTO.itemWidth,
+      marginBetween: artDTO.marginBetween,
+      items: artDTO.items
+    })
   }
 
   @BaseController.errorHandler()
