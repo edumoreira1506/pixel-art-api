@@ -43,10 +43,10 @@ export default class ArtBuilder {
     const errors = []
   
     if (!this._folder) errors.push('Invalid folder.')
-    if (!this._name) errors.push('Invlaid name.')
+    if (!this._name) errors.push('Invalid name.')
     if (!this._marginBetween) errors.push('Invalid margin between.')
     if (!this._items) errors.push('Invalid items.')
-    if (!this._itemWidth) errors.push('Invalid itemWidth')
+    if (!this._itemWidth) errors.push('Invalid item width.')
 
     if (errors.length) {
       const errorMessage = errors.join(' ')
@@ -55,7 +55,7 @@ export default class ArtBuilder {
     }
   }
 
-  build(): Art {
+  build = (): Art => {
     this.validate()
 
     const art = new Art()

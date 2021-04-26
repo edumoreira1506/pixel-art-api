@@ -22,7 +22,7 @@ export default class FolderBuilder {
     const errors = []
 
     if (!this._user) errors.push('Invalid user.')
-    if (!this._name) errors.push('Invlaid name.')
+    if (!this._name) errors.push('Invalid name.')
 
     if (errors.length) {
       const errorMessage = errors.join(' ')
@@ -31,7 +31,7 @@ export default class FolderBuilder {
     }
   }
 
-  build():Folder {
+  build = (): Folder => {
     this.validate()
  
     const folder = new Folder()
