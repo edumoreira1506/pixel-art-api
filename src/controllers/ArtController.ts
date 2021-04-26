@@ -7,6 +7,7 @@ import ArtRepository from '@Repositories/ArtRepository'
 import Art from '@Entities/Art'
 import ArtBuilder from '@Builders/ArtBuilder'
 import FolderError from '@Errors/FolderError'
+import ArtError from '@Errors/ArtError'
 
 class ArtController extends BaseController<Art, ArtRepository> {
   constructor(repository: ObjectType<Art>) {
@@ -75,6 +76,16 @@ class ArtController extends BaseController<Art, ArtRepository> {
     const artId = req.params.artId
 
     await this.repository.delete({ id: artId })
+  }
+
+  @BaseController.errorHandler()
+  async show(req: AppRequest, res: Response): Promise<Response<string, Record<string, string>>> {
+    const { folder, art } = req
+
+    if (!folder) throw new FolderError()
+    if (!art) throw new ArtError()
+
+    return BaseController.successResponse(res, { art })
   }
 }
 
