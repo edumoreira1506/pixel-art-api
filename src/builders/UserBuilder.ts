@@ -45,7 +45,7 @@ export default class UserBuilder {
     const userOfUsername = await this._repository.findByUsername(this._username)
     const isDuplicatedUsername = Boolean(userOfUsername)
 
-    if (isDuplicatedUsername) errors.push('Duplicated username')
+    if (isDuplicatedUsername) errors.push('Duplicated username.')
 
     if (errors.length) {
       const errorMessage = errors.join(' ')
@@ -54,7 +54,7 @@ export default class UserBuilder {
     }
   }
 
-  async build(): Promise<User> {
+  build = async (): Promise<User> => {
     await this.validate()
 
     this.encryptPassword()
