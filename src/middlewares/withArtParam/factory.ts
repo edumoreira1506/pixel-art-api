@@ -1,18 +1,17 @@
 import { NextFunction, Response } from 'express'
 
 import { ApiErrorType } from '@Types/apiErrors'
-import BaseController from '@Controllers/BaseController'
 import { AppRequest } from '@Types/request'
 import UserError from '@Errors/UserError'
 import ArtError from '@Errors/ArtError'
-import ArtController from '@Controllers/ArtController'
 import FolderError from '@Errors/FolderError'
+import ArtRepository from '@Repositories/ArtRepository'
 
-const withArtParamFactory = (errorCallback: (res: Response, error: ApiErrorType) => Response) => {
+export default function withArtParamFactory(errorCallback: (res: Response, error: ApiErrorType) => Response, repository: ArtRepository) {
   return async (request: AppRequest, response: Response, next: NextFunction): Promise<void | Response<string, Record<string, string>>> => {
     const artId = request?.params?.artId
 
-    return ArtController.repository.findById(String(artId))
+    return repository.findById(String(artId))
       .then(art => {
         if (!art) throw new ArtError()
 
@@ -30,5 +29,3 @@ const withArtParamFactory = (errorCallback: (res: Response, error: ApiErrorType)
       .catch((error) => errorCallback(response, error))
   }
 }
-
-export default withArtParamFactory(BaseController.errorResponse)
