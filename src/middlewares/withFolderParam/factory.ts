@@ -1,18 +1,17 @@
 import { NextFunction, Response } from 'express'
 
 import { ApiErrorType } from '@Types/apiErrors'
-import BaseController from '@Controllers/BaseController'
 import { AppRequest } from '@Types/request'
 import FolderError from '@Errors/FolderError'
-import FolderController from '@Controllers/FolderController'
 import UserError from '@Errors/UserError'
 import AuthError from '@Errors/AuthError'
+import FolderRepository from '@Repositories/FolderRepository'
 
-const withFolderParamFactory = (errorCallback: (res: Response, error: ApiErrorType) => Response) => {
+export default function withFolderParamFactory(errorCallback: (res: Response, error: ApiErrorType) => Response, repository: FolderRepository) {
   return async (request: AppRequest, response: Response, next: NextFunction): Promise<void | Response<string, Record<string, string>>> => {
     const folderId = request?.params?.folderId
 
-    return FolderController.repository.findById(String(folderId))
+    return repository.findById(String(folderId))
       .then(folder => {
         if (!folder) throw new FolderError()
 
@@ -28,5 +27,3 @@ const withFolderParamFactory = (errorCallback: (res: Response, error: ApiErrorTy
       .catch((error) => errorCallback(response, error))
   }
 }
-
-export default withFolderParamFactory(BaseController.errorResponse)

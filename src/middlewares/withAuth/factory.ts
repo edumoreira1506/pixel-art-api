@@ -3,11 +3,10 @@ import { NextFunction, Response } from 'express'
 import { ApiErrorType } from '@Types/apiErrors'
 import TokenError from '@Errors/TokenError'
 import TokenService from '@Services/TokenService'
-import BaseController from '@Controllers/BaseController'
-import UserController from '@Controllers/UserController'
 import { AppRequest } from '@Types/request'
+import UserRepository from '@Repositories/UserRepository'
 
-const withAuthFactory = (errorCallback: (res: Response, error: ApiErrorType) => Response) => {
+export default function withAuthFactory(errorCallback: (res: Response, error: ApiErrorType) => Response, repository: UserRepository) {
   return (request: AppRequest, response: Response, next: NextFunction): Promise<void | Response<string, Record<string, string>>> | Response => {
     const token = request?.header('Authorization')
 
@@ -16,7 +15,7 @@ const withAuthFactory = (errorCallback: (res: Response, error: ApiErrorType) => 
     return TokenService.open(token)
       .then(async (decoded: Record<string, unknown>): Promise<void> => {
         const userId = decoded.id
-        const user = await UserController.repository.findById(String(userId))
+        const user = await repository.findById(String(userId))
 
         if (!user) throw new TokenError('Invalid user of token')
 
@@ -27,5 +26,3 @@ const withAuthFactory = (errorCallback: (res: Response, error: ApiErrorType) => 
       .catch((error: ApiErrorType) => errorCallback(response, error))
   }
 }
-
-export default withAuthFactory(BaseController.errorResponse)
