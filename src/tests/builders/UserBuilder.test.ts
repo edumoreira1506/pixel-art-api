@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import UserBuilder from '@Builders/UserBuilder'
 import userFactory from '@Factories/userFactory'
 

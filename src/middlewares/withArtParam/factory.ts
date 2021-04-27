@@ -6,12 +6,15 @@ import UserError from '@Errors/UserError'
 import ArtError from '@Errors/ArtError'
 import FolderError from '@Errors/FolderError'
 import ArtRepository from '@Repositories/ArtRepository'
+import ArtController from '@Controllers/ArtController'
 
-export default function withArtParamFactory(errorCallback: (res: Response, error: ApiErrorType) => Response, repository: ArtRepository) {
+export default function withArtParamFactory(errorCallback: (res: Response, error: ApiErrorType) => Response, repository?: ArtRepository) {
   return async (request: AppRequest, response: Response, next: NextFunction): Promise<void | Response<string, Record<string, string>>> => {
     const artId = request?.params?.artId
 
-    return repository.findById(String(artId))
+    const artRepository = repository || ArtController.repository
+
+    return artRepository.findById(String(artId))
       .then(art => {
         if (!art) throw new ArtError()
 
