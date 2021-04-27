@@ -64,7 +64,6 @@ $ yarn lint
 I have followed the patterns:
 
 - Information Expert (GRASP)
-- Creator (GRASP)
 - Controller (GRASP)
 - Low Coupling (GRASP)
 - High Cohesion (GRASP)
