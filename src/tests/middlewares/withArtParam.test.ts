@@ -17,11 +17,7 @@ describe('withArtParam', () => {
       user: mockUser,
       folder: mockFolder
     }
-    const mockResponse: any = {
-      params: {
-        artId: 'artId'
-      }
-    }
+    const mockResponse: any = {}
     const mockRepository: any = {
       findById: jest.fn().mockResolvedValue(mockArt)
     }
@@ -58,11 +54,7 @@ describe('withArtParam', () => {
       user: mockUser,
       folder: mockFolder
     }
-    const mockResponse: any = {
-      params: {
-        artId: 'artId'
-      }
-    }
+    const mockResponse: any = {}
     const mockRepository: any = {
       findById: jest.fn().mockResolvedValue(mockArt)
     }
@@ -96,11 +88,7 @@ describe('withArtParam', () => {
     const mockRequest: any = {
       user: mockUser,
     }
-    const mockResponse: any = {
-      params: {
-        artId: 'artId'
-      }
-    }
+    const mockResponse: any = {}
     const mockRepository: any = {
       findById: jest.fn().mockResolvedValue(mockArt)
     }
@@ -134,11 +122,7 @@ describe('withArtParam', () => {
     const mockRequest: any = {
       folder: mockFolder
     }
-    const mockResponse: any = {
-      params: {
-        artId: 'artId'
-      }
-    }
+    const mockResponse: any = {}
     const mockRepository: any = {
       findById: jest.fn().mockResolvedValue(mockArt)
     }
@@ -168,11 +152,7 @@ describe('withArtParam', () => {
     let withArtParam: any
 
     const mockRequest: any = null
-    const mockResponse: any = {
-      params: {
-        artId: 'artId'
-      }
-    }
+    const mockResponse: any = {}
     const mockRepository: any = {
       findById: jest.fn().mockResolvedValue(null)
     }
