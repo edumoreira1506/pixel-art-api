@@ -7,8 +7,9 @@ import UserError from '@Errors/UserError'
 import AuthError from '@Errors/AuthError'
 import FolderRepository from '@Repositories/FolderRepository'
 import FolderController from '@Controllers/FolderController'
+import BaseController from '@Controllers/BaseController'
 
-export default function withFolderParamFactory(errorCallback: (res: Response, error: ApiErrorType) => Response, repository?: FolderRepository) {
+export const withFolderParamFactory = (errorCallback: (res: Response, error: ApiErrorType) => Response, repository?: FolderRepository) => {
   return async (request: AppRequest, response: Response, next: NextFunction): Promise<void | Response<string, Record<string, string>>> => {
     const folderId = request?.params?.folderId
 
@@ -30,3 +31,5 @@ export default function withFolderParamFactory(errorCallback: (res: Response, er
       .catch((error) => errorCallback(response, error))
   }
 }
+
+export default withFolderParamFactory(BaseController.errorResponse)

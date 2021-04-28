@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import folderFactory from '@Factories/folderFactory'
 import userFactory from '@Factories/userFactory'
-import withFolderParamFactory from '@Middlewares/withFolderParam/factory'
+import { withFolderParamFactory } from '@Middlewares/withFolderParam'
 
 describe('withFolderParam', () => {
   describe('when user and folder exists and belongs to folder', () => {

@@ -6,9 +6,10 @@ import UserError from '@Errors/UserError'
 import ArtError from '@Errors/ArtError'
 import FolderError from '@Errors/FolderError'
 import ArtRepository from '@Repositories/ArtRepository'
+import BaseController from '@Controllers/BaseController'
 import ArtController from '@Controllers/ArtController'
 
-export default function withArtParamFactory(errorCallback: (res: Response, error: ApiErrorType) => Response, repository?: ArtRepository) {
+export const withArtParamFactory = (errorCallback: (res: Response, error: ApiErrorType) => Response, repository?: ArtRepository) => {
   return async (request: AppRequest, response: Response, next: NextFunction): Promise<void | Response<string, Record<string, string>>> => {
     const artId = request?.params?.artId
 
@@ -32,3 +33,5 @@ export default function withArtParamFactory(errorCallback: (res: Response, error
       .catch((error) => errorCallback(response, error))
   }
 }
+
+export default withArtParamFactory(BaseController.errorResponse)

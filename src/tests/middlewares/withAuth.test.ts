@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import userFactory from '@Factories/userFactory'
-import withAuthFactory from '@Middlewares/withAuth/factory'
+import { withAuthFactory } from '@Middlewares/withAuth'
 import TokenService from '@Services/TokenService'
 
 describe('withAuth', () => {

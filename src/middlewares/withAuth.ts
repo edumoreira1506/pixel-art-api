@@ -6,8 +6,9 @@ import TokenService from '@Services/TokenService'
 import { AppRequest } from '@Types/request'
 import UserRepository from '@Repositories/UserRepository'
 import UserController from '@Controllers/UserController'
+import BaseController from '@Controllers/BaseController'
 
-export default function withAuthFactory(errorCallback: (res: Response, error: ApiErrorType) => Response, repository?: UserRepository) {
+export const withAuthFactory = (errorCallback: (res: Response, error: ApiErrorType) => Response, repository?: UserRepository) => {
   return (request: AppRequest, response: Response, next: NextFunction): Promise<void | Response<string, Record<string, string>>> | Response => {
     const token = request?.header('Authorization')
 
@@ -29,3 +30,5 @@ export default function withAuthFactory(errorCallback: (res: Response, error: Ap
       .catch((error: ApiErrorType) => errorCallback(response, error))
   }
 }
+
+export default withAuthFactory(BaseController.errorResponse)

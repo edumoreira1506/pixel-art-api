@@ -2,7 +2,7 @@
 import artFactory from '@Factories/artFactory'
 import folderFactory from '@Factories/folderFactory'
 import userFactory from '@Factories/userFactory'
-import withArtParamFactory from '@Middlewares/withArtParam/factory'
+import { withArtParamFactory } from '@Middlewares/withArtParam'
 
 describe('withArtParam', () => {
   describe('when art, user and folder exists and belongs to folder', () => {
